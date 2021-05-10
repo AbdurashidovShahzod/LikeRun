@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         Constants.statusBar(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.rootView)
-        Log.d("daoRun", "${dao.hashCode()}")
+
 
     }
 

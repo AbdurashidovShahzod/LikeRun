@@ -16,4 +16,5 @@ import uz.unzosoft.likerun.db.entities.Run
 abstract class RunningDatabase : RoomDatabase() {
 
     abstract fun getRunDao(): RunDAO
+    
 }
