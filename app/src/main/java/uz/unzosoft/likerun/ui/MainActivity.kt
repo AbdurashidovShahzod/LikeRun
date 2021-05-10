@@ -1,5 +1,6 @@
 package uz.unzosoft.likerun.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import uz.unzosoft.likerun.R
 import uz.unzosoft.likerun.databinding.ActivityMainBinding
 import uz.unzosoft.likerun.db.dao.RunDAO
 import uz.unzosoft.likerun.other.Constants
+import uz.unzosoft.likerun.other.Constants.ACTION_SHOW_TRACKING_FRAGMENT
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         Constants.statusBar(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.rootView)
+        navigateToTrackingFragmentIfNeeded(intent)
 
         setSupportActionBar(binding.toolbar)
         binding.apply {
@@ -37,6 +40,17 @@ class MainActivity : AppCompatActivity() {
                         else -> bottomNavigationView.visibility = View.GONE
                     }
                 }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navigateToTrackingFragmentIfNeeded(intent)
+    }
+
+    private fun navigateToTrackingFragmentIfNeeded(intent: Intent?) {
+        if (intent?.action == ACTION_SHOW_TRACKING_FRAGMENT) {
+            navHostFragment.findNavController().navigate(R.id.action_global_tracking_fragment)
         }
     }
 }
