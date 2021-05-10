@@ -1,5 +1,6 @@
 package uz.unzosoft.likerun.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.FragmentScoped
 import uz.unzosoft.likerun.R
 import uz.unzosoft.likerun.databinding.FragmentTrackingBinding
+import uz.unzosoft.likerun.other.Constants.ACTION_START_OR_RESUME_SERVICE
+import uz.unzosoft.likerun.services.TrackingService
 import uz.unzosoft.likerun.ui.viewmodels.MainViewModel
 
 @AndroidEntryPoint
@@ -29,9 +32,18 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         return binding.root
     }
 
+    private fun sendCommandToService(action: String) =
+        Intent(requireContext(), TrackingService::class.java).also {
+            it.action = action
+            requireContext().startService(it)
+        }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
+            btnToggleRun.setOnClickListener {
+                sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
+            }
             mapView.onCreate(savedInstanceState)
         }
         binding?.mapView.getMapAsync {
@@ -66,6 +78,6 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        binding?.mapView.onSaveInstanceState(outState )
+        binding?.mapView.onSaveInstanceState(outState)
     }
 }
