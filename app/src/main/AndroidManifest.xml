@@ -18,7 +18,7 @@
         android:theme="@style/Theme.LikeRun">
         <activity android:name=".StudentActivity"></activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

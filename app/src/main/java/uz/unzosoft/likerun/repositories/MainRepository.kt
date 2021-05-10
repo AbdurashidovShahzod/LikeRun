@@ -1,5 +1,6 @@
 package uz.unzosoft.likerun.repositories
 
+import androidx.hilt.lifecycle.ViewModelInject
 import uz.unzosoft.likerun.db.dao.RunDAO
 import uz.unzosoft.likerun.db.entities.Run
 import javax.inject.Inject

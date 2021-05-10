@@ -1,10 +1,8 @@
 package uz.unzosoft.likerun.extensions
 
 import android.app.Activity
-import android.content.Context
 import android.os.Build
 import android.view.View
-import uz.unzosoft.likerun.MainActivity
 import uz.unzosoft.likerun.R
 
 

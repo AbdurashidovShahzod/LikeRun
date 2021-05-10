@@ -1,4 +1,4 @@
-package uz.unzosoft.likerun
+package uz.unzosoft.likerun.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,8 +20,6 @@ class MainActivity : AppCompatActivity() {
         Constants.statusBar(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.rootView)
-
-
     }
 
 }
