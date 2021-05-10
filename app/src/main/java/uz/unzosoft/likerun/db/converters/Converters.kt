@@ -1,4 +1,4 @@
-package uz.unzosoft.likerun.db
+package uz.unzosoft.likerun.db.converters
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LikeRun">
+        <activity android:name=".StudentActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask">

@@ -1,4 +1,4 @@
-package uz.unzosoft.likerun.db
+package uz.unzosoft.likerun.db.entities
 
 import android.graphics.Bitmap
 import androidx.room.Entity

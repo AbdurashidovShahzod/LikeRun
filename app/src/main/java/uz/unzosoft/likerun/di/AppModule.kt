@@ -1,15 +1,13 @@
 package uz.unzosoft.likerun.di
 
 import android.content.Context
-import android.provider.DocumentsContract
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import uz.unzosoft.likerun.db.RunningDatabase
+import uz.unzosoft.likerun.db.database.RunningDatabase
 import uz.unzosoft.likerun.other.Constants
 import javax.inject.Singleton
 

@@ -1,7 +1,8 @@
-package uz.unzosoft.likerun.db
+package uz.unzosoft.likerun.db.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import uz.unzosoft.likerun.db.entities.Run
 
 @Dao
 interface RunDAO {
