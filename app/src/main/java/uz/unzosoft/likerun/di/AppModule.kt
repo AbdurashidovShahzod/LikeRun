@@ -8,13 +8,14 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import uz.unzosoft.likerun.db.RunningDatabase
 import uz.unzosoft.likerun.other.Constants
 import javax.inject.Singleton
 
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Provides
@@ -29,6 +30,4 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRunDao(db: RunningDatabase) = db.getRunDao()
-
-
 }
