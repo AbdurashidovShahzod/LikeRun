@@ -13,6 +13,8 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.model.LatLng
 import timber.log.Timber
 import uz.unzosoft.likerun.R
@@ -63,6 +65,22 @@ class TrackingService : LifecycleService() {
             }
         }
         return super.onStartCommand(intent, flags, startId)
+    }
+
+
+    val locationCallback = object : LocationCallback() {
+
+        override fun onLocationResult(result: LocationResult) {
+            super.onLocationResult(result)
+
+            if (isTrackingMutableLiveData.value!!) {
+                result.locations?.let { locations ->
+                    for (location in locations) {
+                        addPathPoint(location)
+                    }
+                }
+            }
+        }
     }
 
     private fun addPathPoint(location: Location?) {
