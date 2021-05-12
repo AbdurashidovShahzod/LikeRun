@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.model.LatLng
 import timber.log.Timber
@@ -25,6 +26,7 @@ import uz.unzosoft.likerun.other.Constants.ACTION_STOP_SERVICE
 import uz.unzosoft.likerun.other.Constants.NOTIFICATION_CHANNEL_ID
 import uz.unzosoft.likerun.other.Constants.NOTIFICATION_CHANNEL_NAME
 import uz.unzosoft.likerun.other.Constants.NOTIFICATION_ID
+import uz.unzosoft.likerun.other.TrackingUtility
 import uz.unzosoft.likerun.ui.MainActivity
 
 
@@ -78,6 +80,16 @@ class TrackingService : LifecycleService() {
                     for (location in locations) {
                         addPathPoint(location)
                     }
+                }
+            }
+        }
+    }
+
+    private fun updateLocationTracking(isTracking:Boolean){
+        if (isTracking){
+            if (TrackingUtility.hasLocationPermissions(this)){
+                val request = LocationRequest().apply {
+
                 }
             }
         }
