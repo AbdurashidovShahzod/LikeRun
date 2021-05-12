@@ -15,6 +15,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -55,8 +56,13 @@ class TrackingService : LifecycleService() {
     }
 
     override fun onCreate() {
+        postInitialValues()
         super.onCreate()
         fusedLocationProviderClient = FusedLocationProviderClient(this)
+
+        isTrackingMutableLiveData.observe(this, Observer {
+            updateLocationTracking(it)
+        })
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -91,6 +97,7 @@ class TrackingService : LifecycleService() {
                 result.locations?.let { locations ->
                     for (location in locations) {
                         addPathPoint(location)
+                        Timber.d("New location:${location.latitude},${location.longitude}")
                     }
                 }
             }
@@ -134,6 +141,7 @@ class TrackingService : LifecycleService() {
 
     private fun startForegroundService() {
         addEmptyPolyline()
+        isTrackingMutableLiveData.postValue(true)
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE)
                 as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
