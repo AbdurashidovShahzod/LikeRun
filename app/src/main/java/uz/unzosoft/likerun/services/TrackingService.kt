@@ -7,10 +7,13 @@ import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Intent
+import android.location.Location
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.maps.model.LatLng
 import timber.log.Timber
 import uz.unzosoft.likerun.R
 import uz.unzosoft.likerun.other.Constants.ACTION_PAUSE_SERVICE
@@ -22,9 +25,23 @@ import uz.unzosoft.likerun.other.Constants.NOTIFICATION_CHANNEL_NAME
 import uz.unzosoft.likerun.other.Constants.NOTIFICATION_ID
 import uz.unzosoft.likerun.ui.MainActivity
 
+
+typealias PolyLine = MutableList<LatLng>
+typealias PolyLines = MutableList<PolyLine>
+
 class TrackingService : LifecycleService() {
 
-    var isFirstRun = true
+    private var isFirstRun = true
+
+    companion object {
+        val isTrackingMutableLiveData = MutableLiveData<Boolean>()
+        val pathPoints = MutableLiveData<PolyLines>()
+    }
+
+    private fun postInitialValues() {
+        isTrackingMutableLiveData.postValue(false)
+        pathPoints.postValue(mutableListOf())
+    }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
@@ -48,7 +65,23 @@ class TrackingService : LifecycleService() {
         return super.onStartCommand(intent, flags, startId)
     }
 
+    private fun addPathPoint(location: Location?) {
+        location?.let {
+            val pos = LatLng(location.latitude, location.longitude)
+            pathPoints.value?.apply {
+                last().add(pos)
+                pathPoints.postValue(this)
+            }
+        }
+    }
+
+    private fun addEmptyPolyline() = pathPoints.value?.apply {
+        add(mutableListOf())
+        pathPoints.postValue(this)
+    } ?: pathPoints.postValue(mutableListOf(mutableListOf()))
+
     private fun startForegroundService() {
+        addEmptyPolyline()
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE)
                 as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
