@@ -54,7 +54,20 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         }
     }
 
+
+    private fun toggleRun() {
+
+    }
+
     private fun updateTracking(isTracking: Boolean) {
+        this.icTracking = icTracking
+        if (!icTracking) {
+            binding.btnToggleRun.text = getString(R.string.start)
+            binding.btnFinishRun.visibility = View.VISIBLE
+        } else {
+            binding.btnToggleRun.text = getString(R.string.stop)
+            binding.btnFinishRun.visibility = View.GONE
+        }
 
     }
 

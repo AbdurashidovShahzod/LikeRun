@@ -9,5 +9,7 @@
     </string-array>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyApCf18h6B8N3gY-u1_mbxBNIYyHURD3Lo</string>
     <string name="you_need">You need to accept location permissions to use this app</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 
 </resources>
