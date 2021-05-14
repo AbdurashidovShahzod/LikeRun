@@ -13,6 +13,7 @@ import dagger.hilt.android.scopes.FragmentScoped
 import uz.unzosoft.likerun.R
 import uz.unzosoft.likerun.databinding.FragmentTrackingBinding
 import uz.unzosoft.likerun.other.Constants.ACTION_START_OR_RESUME_SERVICE
+import uz.unzosoft.likerun.services.PolyLine
 import uz.unzosoft.likerun.services.TrackingService
 import uz.unzosoft.likerun.ui.viewmodels.MainViewModel
 
@@ -21,6 +22,8 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     lateinit var binding: FragmentTrackingBinding
     private val viewModel: MainViewModel by viewModels()
     private var map: GoogleMap? = null
+    private var icTracking = false
+    private var pathPoints = mutableListOf<PolyLine>()
 
 
     override fun onCreateView(
@@ -31,6 +34,11 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         binding = FragmentTrackingBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
+
+    private fun addLatestPolyline() {
+
+    }
+
 
     private fun sendCommandToService(action: String) =
         Intent(requireContext(), TrackingService::class.java).also {
