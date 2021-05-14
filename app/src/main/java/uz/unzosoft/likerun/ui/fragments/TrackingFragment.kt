@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.PolygonOptions
@@ -15,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.FragmentScoped
 import uz.unzosoft.likerun.R
 import uz.unzosoft.likerun.databinding.FragmentTrackingBinding
+import uz.unzosoft.likerun.other.Constants.ACTION_PAUSE_SERVICE
 import uz.unzosoft.likerun.other.Constants.ACTION_START_OR_RESUME_SERVICE
 import uz.unzosoft.likerun.other.Constants.MAP_ZOOM
 import uz.unzosoft.likerun.other.Constants.POLYLINE_COLOR
@@ -45,22 +47,44 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         super.onViewCreated(view, savedInstanceState)
         binding?.apply {
             btnToggleRun.setOnClickListener {
-                sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
+                toggleRun()
             }
             mapView.onCreate(savedInstanceState)
         }
         binding?.mapView.getMapAsync {
             map = it
+            addAllPolyline()
         }
+        subscribeToObservers()
+    }
+
+
+    private fun subscribeToObservers() {
+        TrackingService.isTrackingMutableLiveData.observe(viewLifecycleOwner,
+            Observer {
+                updateTracking(it)
+            })
+        TrackingService.pathPoints.observe(viewLifecycleOwner,
+            Observer {
+                pathPoints = it
+                addLatestPolyline()
+                moveCameraToUser()
+
+            })
     }
 
 
     private fun toggleRun() {
+        if (icTracking) {
+            sendCommandToService(ACTION_PAUSE_SERVICE)
+        } else {
+            sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
+        }
 
     }
 
     private fun updateTracking(isTracking: Boolean) {
-        this.icTracking = icTracking
+        this.icTracking = isTracking
         if (!icTracking) {
             binding.btnToggleRun.text = getString(R.string.start)
             binding.btnFinishRun.visibility = View.VISIBLE
