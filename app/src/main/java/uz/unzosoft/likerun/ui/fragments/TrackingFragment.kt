@@ -16,6 +16,7 @@ import uz.unzosoft.likerun.R
 import uz.unzosoft.likerun.databinding.FragmentTrackingBinding
 import uz.unzosoft.likerun.other.Constants.ACTION_START_OR_RESUME_SERVICE
 import uz.unzosoft.likerun.other.Constants.POLYLINE_COLOR
+import uz.unzosoft.likerun.other.Constants.POLYLINE_WIDTH
 import uz.unzosoft.likerun.services.PolyLine
 import uz.unzosoft.likerun.services.TrackingService
 import uz.unzosoft.likerun.ui.viewmodels.MainViewModel
@@ -38,14 +39,26 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         return binding.root
     }
 
+    private fun addAllPolyline() {
+        for (polyline in pathPoints) {
+            val polyLineOptions = PolylineOptions()
+                .color(POLYLINE_COLOR)
+                .width(POLYLINE_WIDTH)
+                .addAll(polyline)
+            map?.addPolyline(polyLineOptions)
+        }
+    }
+
     private fun addLatestPolyline() {
         if (pathPoints.isNotEmpty() && pathPoints.last().size > 1) {
-            var preLastLatLng = pathPoints.last()[pathPoints.last().size - 2]
+            val preLastLatLng = pathPoints.last()[pathPoints.last().size - 2]
             var lastLatLng = pathPoints.last().last()
             val polyLineOptions = PolylineOptions()
                 .color(POLYLINE_COLOR)
-
-
+                .width(POLYLINE_WIDTH)
+                .add(preLastLatLng)
+                .add(lastLatLng)
+            map?.addPolyline(polyLineOptions)
         }
     }
 
