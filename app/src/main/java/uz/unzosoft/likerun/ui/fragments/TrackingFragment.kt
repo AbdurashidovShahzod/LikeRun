@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.PolygonOptions
 import com.google.android.gms.maps.model.PolylineOptions
@@ -15,6 +16,7 @@ import dagger.hilt.android.scopes.FragmentScoped
 import uz.unzosoft.likerun.R
 import uz.unzosoft.likerun.databinding.FragmentTrackingBinding
 import uz.unzosoft.likerun.other.Constants.ACTION_START_OR_RESUME_SERVICE
+import uz.unzosoft.likerun.other.Constants.MAP_ZOOM
 import uz.unzosoft.likerun.other.Constants.POLYLINE_COLOR
 import uz.unzosoft.likerun.other.Constants.POLYLINE_WIDTH
 import uz.unzosoft.likerun.services.PolyLine
@@ -38,6 +40,33 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         binding = FragmentTrackingBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding?.apply {
+            btnToggleRun.setOnClickListener {
+                sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
+            }
+            mapView.onCreate(savedInstanceState)
+        }
+        binding?.mapView.getMapAsync {
+            map = it
+        }
+    }
+
+    private fun updateTracking(isTracking: Boolean) {
+
+    }
+
+    private fun moveCameraToUser() {
+        if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
+            map?.animateCamera(
+                CameraUpdateFactory
+                    .newLatLngZoom(pathPoints.last().last(), MAP_ZOOM)
+            )
+        }
+    }
+
 
     private fun addAllPolyline() {
         for (polyline in pathPoints) {
@@ -69,18 +98,6 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
             requireContext().startService(it)
         }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding?.apply {
-            btnToggleRun.setOnClickListener {
-                sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
-            }
-            mapView.onCreate(savedInstanceState)
-        }
-        binding?.mapView.getMapAsync {
-            map = it
-        }
-    }
 
     override fun onResume() {
         super.onResume()
