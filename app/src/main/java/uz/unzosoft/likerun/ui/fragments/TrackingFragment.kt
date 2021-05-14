@@ -8,11 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.PolygonOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.scopes.FragmentScoped
 import uz.unzosoft.likerun.R
 import uz.unzosoft.likerun.databinding.FragmentTrackingBinding
 import uz.unzosoft.likerun.other.Constants.ACTION_START_OR_RESUME_SERVICE
+import uz.unzosoft.likerun.other.Constants.POLYLINE_COLOR
 import uz.unzosoft.likerun.services.PolyLine
 import uz.unzosoft.likerun.services.TrackingService
 import uz.unzosoft.likerun.ui.viewmodels.MainViewModel
@@ -36,7 +39,14 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     }
 
     private fun addLatestPolyline() {
+        if (pathPoints.isNotEmpty() && pathPoints.last().size > 1) {
+            var preLastLatLng = pathPoints.last()[pathPoints.last().size - 2]
+            var lastLatLng = pathPoints.last().last()
+            val polyLineOptions = PolylineOptions()
+                .color(POLYLINE_COLOR)
 
+
+        }
     }
 
 
