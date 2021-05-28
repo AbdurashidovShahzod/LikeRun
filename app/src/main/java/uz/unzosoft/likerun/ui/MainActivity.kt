@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,4 +54,10 @@ class MainActivity : AppCompatActivity() {
             navHostFragment.findNavController().navigate(R.id.action_global_tracking_fragment)
         }
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return Navigation.findNavController(this, R.id.nav_host_fragment_container)
+            .navigateUp()
+    }
+
 }

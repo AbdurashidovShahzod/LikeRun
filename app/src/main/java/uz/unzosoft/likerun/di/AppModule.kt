@@ -30,14 +30,4 @@ object AppModule {
     fun provideRunDao(db: RunningDatabase) = db.getRunDao()
 
 
-
-
-
-
-
-
-
-
-
-
 }

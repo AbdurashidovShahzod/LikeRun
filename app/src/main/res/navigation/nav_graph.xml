@@ -41,5 +41,8 @@
         <action
             android:id="@+id/action_trackingFragment_to_runFragment"
             app:destination="@id/runFragment" />
+        <action
+            android:id="@+id/action_trackingFragment_to_setupFragment"
+            app:destination="@id/setupFragment" />
     </fragment>
 </navigation>
